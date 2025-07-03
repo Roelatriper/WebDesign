@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个边缘淼淼的博客:Aresene J Roelatiper's Blog qwq</title>
+    <link rel="stylesheet" href="css\styles.css">
+    <script src="js/motion.js" defer>js/motion.js</script>
+    <!-- <script src="js/hitokoto.js" defer>js/hitokoto.js</script> -->
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+    <!--md什么几把api看的我不知所措-->
+</head>
+<body>
+    <!-- 背景层 -->
+    <div class="background"></div>
+    
+    <!-- 模糊蒙版层 -->
+    <div class="blur-mask"></div>
+    
+    <!-- 侧边栏 -->
+    <nav class="sidebar" id="sidebar">
+        <!-- <h5>
+            An egg u have just found!
+        </h5> -->
+        <div class="sidebar-header">
+            菜单导航
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于我</a></li>
+            <li><a href="#services">一些文章</a></li>
+            <li><a href="#portfolio">有趣之物</a></li>
+            <li><a href="#contact">联系弱淼</a></li>
+        </ul>
+        
+        <div class="sidebar-card">
+            <h4>使用说明</h4>
+            <p>使用Claude辅助开发,并且引用了hitokotoAPI,本人设计能力弱智水平,不足之处轻喷,欢迎进入issue反馈bug.</p>
+        </div>
+        
+        <div class="sidebar-card">
+            <h4>ひと言</h4>
+            <p id="hitokoto">
+                <a href="https://hitokoto.cn" id="hitokoto_text">少女祈祷中...(点击跳转至一言)</a>
+                ----Tks Hitokoto
+              </p>
+    </nav>
+
+    <!-- 侧边栏遮罩层 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- 侧边栏切换按钮 -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </button>
+
+    <!-- 主要内容 -->
+    <div class="container main-content" id="mainContent">
+        <!-- 确保第一个卡片可见的间距 -->
+        <div class="first-card-spacer"></div>
+        
+        <!-- 主标题卡片 -->
+        <div class="content-section">
+            <div class="card-large">
+                <h1>模糊蒙版背景网页</h1>
+                <p>test占位符</p>
+                
+                <!-- 图片占位符 -->
+                <div class="image-placeholder">
+                    图片插入位置
+                </div>
+            </div>
+        </div>
+
+        <!-- 分隔线 -->
+        <div class="section-divider"></div>
+        
+        <!-- 卡片网格 -->
+        <div class="content-section">
+            <div class="grid-container">
+                <div class="card">
+                    <h2 style="color: white; margin-bottom: 15px;">卡片标题 1</h2>
+                    <p>这是一个标准的圆角卡片，使用了 .card 类。卡片具有玻璃态效果，包含模糊背景和透明边框。</p>
+                    <div class="image-placeholder">
+                        图片位置 1
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 style="color: white; margin-bottom: 15px;">卡片标题 2</h2>
+                    <p>另一个卡片示例，展示了卡片类的复用性。您可以在任何地方使用这个类来创建一致的设计。</p>
+                    <div class="image-placeholder">
+                        图片位置 2
+                    </div>
+                </div>
+                
+                <div class="card-small">
+                    <h3 style="color: white; margin-bottom: 10px;">小卡片</h3>
+                    <p>这是使用 .card-small 类的小尺寸卡片。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分隔线 -->
+        <div class="section-divider"></div>
+        
+        <!-- 可折叠卡片示例 -->
+        <div class="content-section">
+            <div class="card-collapsible" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3>可折叠卡片 - 产品介绍</h3>
+                    <div class="expand-arrow"></div>
+                </div>
+                <div class="collapse-indicator"></div>
+                <div class="card-content">
+                    <p>这是一个可折叠的卡片，默认状态下隐藏文本内容。点击卡片或者右侧的三角按钮可以展开查看完整内容。</p>
+                    <p>卡片采用了与其他卡片相同的玻璃态设计风格，但增加了交互功能。展开时会显示更多详细信息和图片。</p>
+                    <div class="image-placeholder">
+                        展开后的图片位置
+                    </div>
+                    <p>这种设计非常适合用于产品展示、FAQ问答、或者需要节省空间但又要显示详细信息的场景。</p>
+                </div>
+            </div>
+            
+            <div class="card-collapsible" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3>服务详情 - 点击展开</h3>
+                    <div class="expand-arrow"></div>
+                </div>
+                <div class="collapse-indicator"></div>
+                <div class="card-content">
+                    <p>我们提供专业的网页设计和开发服务，包括响应式设计、用户体验优化、以及现代化的前端技术实现。</p>
+                    <div class="image-placeholder">
+                        服务展示图片
+                    </div>
+                    <p>我们的团队具有丰富的经验，能够为您打造独特且功能完善的网站解决方案。</p>
+                    <p>服务包含：UI/UX设计、前端开发、后端集成、SEO优化、移动端适配等全方位服务。</p>
+                </div>
+            </div>
+            
+            <div class="card-collapsible" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3>技术栈说明</h3>
+                    <div class="expand-arrow"></div>
+                </div>
+                <div class="collapse-indicator"></div>
+                <div class="card-content">
+                    <p>本项目使用了现代化的前端技术栈，包括HTML5、CSS3、JavaScript等技术。</p>
+                    <p>特色功能：</p>
+                    <p>• 玻璃态效果设计<br>• 响应式布局<br>• 平滑动画效果<br>• 交互式组件<br>• 模块化CSS架构</p>
+                    <div class="image-placeholder">
+                        技术架构图
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分隔线 -->
+        <div class="section-divider"></div>
+
+        <!-- 额外内容区域 -->
+        <div class="content-section">
+            <div class="card">
+                <h2 style="color: white; margin-bottom: 15px;">更多内容展示</h2>
+                <p>页面现在支持垂直滚动，您可以添加更多内容而不用担心空间限制。背景的模糊蒙版效果会保持固定，而内容可以自由滚动。</p>
+                <div class="image-placeholder">
+                    更多图片内容
+                </div>
+                <p>滚动条也经过了美化处理，具有半透明效果，与整体设计风格保持一致。</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="grid-container">
+                <div class="card-small">
+                    <h3 style="color: white; margin-bottom: 10px;">滚动功能</h3>
+                    <p>现在支持页面滚动浏览所有内容。</p>
+                </div>
+                <div class="card-small">
+                    <h3 style="color: white; margin-bottom: 10px;">响应式设计</h3>
+                    <p>在各种设备上都能正常显示和滚动。</p>
+                </div>
+                <div class="card-small">
+                    <h3 style="color: white; margin-bottom: 10px;">美化滚动条</h3>
+                    <p>自定义滚动条样式，保持设计统一。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部内容 -->
+        <div class="content-section">
+            <div class="card-large">
+                <h2 style="color: white; margin-bottom: 15px;">页面底部</h2>
+                <p>这里是页面的底部内容，演示了网页的滚动功能。您可以滚动回到顶部查看其他内容。</p>
+                <div class="image-placeholder">
+                    底部图片位置
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+</body>
+</html>

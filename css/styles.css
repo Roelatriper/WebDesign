@@ -1,0 +1,501 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* 背景图片层 */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -2;
+        }
+
+        /* 模糊蒙版层 */
+        .blur-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+        }
+
+        /* 圆角卡片类 */
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 大卡片变体 */
+        .card-large {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* 小卡片变体 */
+        .card-small {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            margin: 15px;
+            transition: all 0.3s ease;
+        }
+
+        /* 主容器 - 修复上边距问题 */
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 120px 20px 40px 20px; /* 增加顶部边距到120px */
+        }
+
+        /* 图片占位符样式 */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            margin: 20px 0;
+        }
+
+        /* 文本样式 */
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        /* 网格布局示例 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 30px;
+        }
+
+        /* 侧边栏样式 */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding: 80px 20px 20px 20px; /* 增加顶部内边距避免被按钮遮挡 */
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        /* 侧边栏内容 */
+        .sidebar-header {
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        /* 侧边栏切换按钮 - 调整z-index确保显示在最上层 */
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1002; /* 提高z-index确保在最上层 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-toggle:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+
+        .sidebar-toggle.active {
+            left: 270px;
+        }
+
+        /* 汉堡菜单图标 */
+        .hamburger {
+            width: 20px;
+            height: 20px;
+            position: relative;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: white;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+            border-radius: 1px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* 遮罩层 */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 侧边栏卡片 */
+        .sidebar-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-card h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .sidebar-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        /* 可折叠卡片类 */
+        .card-collapsible {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .card-collapsible:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 卡片头部 */
+        .card-header {
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .card-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.3em;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 三角展开按钮 */
+        .expand-arrow {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .expand-arrow.expanded {
+            transform: rotate(180deg);
+            border-top-color: rgba(255, 255, 255, 1);
+        }
+
+        /* 卡片内容区域 */
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            opacity: 0;
+        }
+
+        .card-content.expanded {
+            max-height: 500px;
+            opacity: 1;
+            padding: 0 30px 30px 30px;
+        }
+
+        .card-content p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        /* 可折叠卡片的图片占位符 */
+        .card-collapsible .image-placeholder {
+            width: 100%;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        /* 折叠状态指示器 */
+        .collapse-indicator {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .card-collapsible.expanded .collapse-indicator {
+            opacity: 0;
+        }
+
+        /* 动画效果增强 */
+        .card-collapsible .card-header {
+            transition: all 0.3s ease;
+        }
+
+        .card-collapsible:hover .card-header {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .card-collapsible.expanded {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 主内容区域调整 */
+        .main-content {
+            transition: margin-left 0.3s ease;
+            width: 100%;
+        }
+
+        .main-content.shifted {
+            margin-left: 300px;
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 内容区域间距调整 */
+        .content-section {
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+        }
+
+        /* 页面分隔线 */
+        .section-divider {
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            margin: 60px auto;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .card, .card-large {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                width: 280px;
+                left: -280px;
+                padding: 80px 20px 20px 20px; /* 移动端也保持足够的顶部边距 */
+            }
+
+            .sidebar-toggle.active {
+                left: 250px;
+            }
+
+            .main-content.shifted {
+                margin-left: 0;
+            }
+
+            /* 移动端调整主容器上边距 */
+            .container {
+                padding: 100px 20px 40px 20px;  /* 移动端稍微减少顶部边距 */
+            }
+
+            .card-collapsible {
+                margin: 15px 10px;
+            }
+            
+            .card-header {
+                padding: 15px 20px;
+            }
+            
+            .card-content.expanded {
+                padding: 0 20px 20px 20px;
+            }
+            
+            .card-header h3 {
+                font-size: 1.1em;
+            }
+        }
+
+        /* 确保第一个卡片可见的额外样式 */
+        .first-card-spacer {
+            height: 20px; /* 额外间距确保第一个卡片完全可见 */
+        }

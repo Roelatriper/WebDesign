@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>打字机效果</title>
+  <!-- <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+    
+    .typewriter-container {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      max-width: 800px;
+      width: 90%;
+      text-align: center;
+    }
+    
+    .title {
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .content {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.8rem;
+      line-height: 1.6;
+      min-height: 200px;
+      color: #2c3e50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: left;
+      padding: 20px;
+    }
+    
+    .text-display {
+      position: relative;
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+      min-height: 150px;
+      width: 100%;
+    }
+    
+    
+    
+    .text-content {
+      display: inline;
+      white-space: pre;
+    }
+    
+   
+    
+    .controls {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 12px 25px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    button:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .info {
+      margin-top: 20px;
+      color: #7f8c8d;
+      font-size: 1rem;
+      text-align: center;
+    }
+    
+    @media (max-width: 768px) {
+      .content {
+        font-size: 1.4rem;
+      }
+      
+      .title {
+        font-size: 2rem;
+      }
+    } -->
+  <style>
+      .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.2em;
+      background-color: #e74c3c;
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink 1s infinite;
+    } @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style> 
+</head>
+<body>
+  <div class="typewriter-container">
+    <h1 class="title">打字机动画效果</h1>
+    
+    <div class="content">
+      <div class="text-display">
+        <span id="text-content" class="text-content"></span>
+        <span id="cursor" class="cursor"></span>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button id="start-effect">开始动画</button>
+      <button id="change-text">更换文本</button>
+      <button id="pause-resume">暂停/继续</button>
+    </div>
+    
+    <p class="info">文字将逐个显示，停顿1.5秒后再逐个删除</p>
+  </div>
+
+  <script>
+    class Typewriter {
+      constructor(textElement, cursorElement) {
+        this.textElement = textElement;
+        this.cursorElement = cursorElement;
+        this.textContent = '';
+        this.paused = false;
+        this.timeoutId = null;
+      }
+      
+      /**
+       * 启动打字机效果
+       * @param {string} text - 要显示的文本
+       */
+      start(text) {
+        this.textContent = text;
+        this.paused = false;
+        this.textElement.textContent = '';
+        this.cursorElement.style.display = 'inline-block';
+        this.charIndex = 0;
+        
+        // 立即开始输入动画
+        this.type();
+      }
+      
+      // 打字动画
+      type() {
+        if (this.paused) return;
+        
+        this.textElement.textContent = this.textContent.substring(0, this.charIndex);
+        this.charIndex++;
+        
+        if (this.charIndex <= this.textContent.length) {
+          // 继续打字
+          const speed = Math.max(50, Math.min(200, 6000 / this.textContent.length));
+          this.timeoutId = setTimeout(() => this.type(), speed);
+        } else {
+          // 打完所有文字后暂停，然后开始删除
+          this.timeoutId = setTimeout(() => this.erase(), 1500);
+        }
+      }
+      
+      // 擦除动画
+      erase() {
+        if (this.paused) return;
+        
+        this.textElement.textContent = this.textContent.substring(0, this.charIndex);
+        this.charIndex--;
+        
+        if (this.charIndex >= 0) {
+          // 继续擦除
+          const speed = Math.max(30, Math.min(150, 5000 / this.textContent.length));
+          this.timeoutId = setTimeout(() => this.erase(), speed);
+        } else {
+          // 全部擦除后重新开始
+          this.timeoutId = setTimeout(() => this.start(this.textContent), 1000);
+        }
+      }
+      
+      // 暂停/继续动画
+      togglePause() {
+        this.paused = !this.paused;
+        if (!this.paused) {
+          if (this.charIndex <= this.textContent.length) {
+            this.type();
+          } else {
+            this.erase();
+          }
+        } else {
+          clearTimeout(this.timeoutId);
+        }
+      }
+      
+      // 停止动画
+      stop() {
+        clearTimeout(this.timeoutId);
+        this.textElement.textContent = '';
+        this.cursorElement.style.display = 'none';
+      }
+    }
+    
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      const textElement = document.getElementById('text-content');
+      const cursorElement = document.getElementById('cursor');
+      const typewriter = new Typewriter(textElement, cursorElement);
+      
+      // 默认文本
+      const defaultTexts = [
+        "你好，欢迎使用打字机动画效果！这段文字将逐个字符显示出来...",
+        "这个效果完全通过原生JavaScript实现，纯前端无需任何依赖",
+        "动画速度会根据文本长度自动调整，保证良好的视觉体验",
+        "你可以点击下方按钮控制动画的开始、暂停和切换文本"
+      ];
+      
+      // 设置随机文本
+      const getRandomText = () => {
+        return defaultTexts[Math.floor(Math.random() * defaultTexts.length)];
+      };
+      
+      // 开始按钮事件
+      document.getElementById('start-effect').addEventListener('click', () => {
+        typewriter.start(getRandomText());
+      });
+      
+      // 更换文本按钮事件
+      document.getElementById('change-text').addEventListener('click', () => {
+        typewriter.start(getRandomText());
+      });
+      
+      // 暂停/继续按钮事件
+      document.getElementById('pause-resume').addEventListener('click', () => {
+        typewriter.togglePause();
+      });
+      
+      // 初始化动画
+      typewriter.start(defaultTexts[0]);
+    });
+  </script>
+</body>
+</html>

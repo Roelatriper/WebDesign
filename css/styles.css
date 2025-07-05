@@ -499,3 +499,16 @@
         .first-card-spacer {
             height: 20px; /* 额外间距确保第一个卡片完全可见 */
         }
+
+          .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.2em;
+      background-color: #e74c3c;
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink 1s infinite;
+    } @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }

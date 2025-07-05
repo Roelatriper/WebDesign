@@ -131,6 +131,8 @@ arrow.addEventListener('click', (e) => {
 });
 });
 
+// Its dash line!below this is TypeWriter.
+
 class Typewriter {
     constructor(textElement, cursorElement) {
       this.textElement = textElement;
@@ -248,4 +250,5 @@ class Typewriter {
     
     // 初始化动画
     typewriter.start(defaultTexts[0]);
+    // typewriter.start(getRandomText());
   });
